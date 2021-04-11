@@ -1,3 +1,9 @@
+const PRIORITIES = {
+  LOW: 0,
+  MEDIUM: 1,
+  HIGH: 2,
+};
+
 /**
  * Creates a new Task object.
  *
@@ -6,16 +12,18 @@
  * @param {string} description A description of the task.
  * @returns {obj} a new Task object.
  */
-const createTask = (id, title, description = '') => {
+const createTask = (
+  id,
+  title,
+  description = '',
+  dueDate = 0,
+  priority = PRIORITIES.MEDIUM,
+) => {
   if (id === undefined || id < 0 || title === undefined) {
     return null;
   }
 
-  const taskID = id;
-  const taskTitle = title;
-  const taskDescription = description;
-
-  return { id: taskID, title: taskTitle, description: taskDescription };
+  return { id, title, description, dueDate, priority };
 };
 
 export default createTask;
