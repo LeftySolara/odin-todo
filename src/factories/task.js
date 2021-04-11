@@ -6,14 +6,14 @@
  * @param {string} description A description of the task.
  * @returns {obj} a new Task object.
  */
-const createTask = (id, title, description) => {
+const createTask = (id, title, description = '') => {
   if (id === undefined || id < 0 || title === undefined) {
     return null;
   }
 
   const taskID = id;
   const taskTitle = title;
-  const taskDescription = description === undefined ? '' : description;
+  const taskDescription = description;
 
   return { id: taskID, title: taskTitle, description: taskDescription };
 };
