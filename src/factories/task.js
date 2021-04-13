@@ -1,17 +1,23 @@
-const PRIORITIES = {
+/**
+ * Enum representing task priority.
+ */
+const TASK_PRIORITY = {
   LOW: 0,
   MEDIUM: 1,
   HIGH: 2,
 };
 
-const STATUSES = {
+/**
+ * Enum representing task status.
+ */
+const TASK_STATUS = {
   NOT_STARTED: 0,
   IN_PROGRESS: 1,
   COMPLETE: 2,
 };
 
 const createSubtask = (id, description) => {
-  const status = STATUSES.NOT_STARTED;
+  const status = TASK_STATUS.NOT_STARTED;
   return { id, description, status };
 };
 
@@ -28,7 +34,7 @@ const createTask = (
   title,
   description = '',
   dueDate = 0,
-  priority = PRIORITIES.MEDIUM,
+  priority = TASK_PRIORITY.MEDIUM,
 ) => {
   if (id === undefined || id < 0 || title === undefined) {
     return null;
