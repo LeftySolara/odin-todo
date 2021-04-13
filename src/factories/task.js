@@ -16,11 +16,6 @@ const TASK_STATUS = {
   COMPLETE: 2,
 };
 
-const createSubtask = (id, description) => {
-  const status = TASK_STATUS.NOT_STARTED;
-  return { id, description, status };
-};
-
 /**
  * Creates a new Task object.
  *
@@ -43,12 +38,26 @@ const createTask = (
   let subtasks = [];
   let nextSubtaskID = 0;
 
+  /**
+   * Creates a new subtask within a task.
+   *
+   * @param {string} taskDescription A description of the subtask.
+   */
   const addSubtask = (taskDescription) => {
-    const subtask = createSubtask(nextSubtaskID, taskDescription);
+    const subtask = {
+      id: nextSubtaskID,
+      description: taskDescription,
+      status: TASK_STATUS.NOT_STARTED,
+    };
     subtasks.push(subtask);
     nextSubtaskID += 1;
   };
 
+  /**
+   * Removes a subtask.
+   *
+   * @param {number} subtaskID The ID of the subtask to remove.
+   */
   const deleteSubtask = (subtaskID) => {
     subtasks = subtasks.filter((subtask) => {
       return subtask.id !== subtaskID;
