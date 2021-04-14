@@ -1,5 +1,7 @@
 /**
  * Enum representing task priority.
+ * @readonly
+ * @enum {number}
  */
 const TASK_PRIORITY = {
   LOW: 0,
@@ -9,6 +11,8 @@ const TASK_PRIORITY = {
 
 /**
  * Enum representing task status.
+ * @readonly
+ * @enum {number}
  */
 const TASK_STATUS = {
   NOT_STARTED: 0,
@@ -19,21 +23,24 @@ const TASK_STATUS = {
 /**
  * Creates a new Task object.
  *
- * @param {number} id The task's ID number.
- * @param {string} title The task's title.
- * @param {string} description A description of the task.
- * @returns {obj} a new Task object.
+ * @param {Object} taskData - Information to initialie the task with.
+ * @param {number} taskData.id - The ID number of the task.
+ * @param {string} taskData.title - The title of the task.
+ * @param {string} taskData.description - A brief description of the task.
+ * @param {Date} taskData.dueDate - The date the task is due.
+ * @param {TASK_PRIORITY} taskData.priority - The priority of the task (high, medium, or low).
  */
-const createTask = (
-  id,
-  title,
-  description = '',
-  dueDate = 0,
-  priority = TASK_PRIORITY.MEDIUM,
-) => {
-  if (id === undefined || id < 0 || title === undefined) {
+const createTask = (taskData) => {
+  if (
+    taskData.id === undefined ||
+    taskData.id < 0 ||
+    taskData.title === undefined
+  ) {
     return null;
   }
+
+  const { id, title, description, dueDate, priority } = taskData;
+  const status = TASK_STATUS.NOT_STARTED;
 
   let subtasks = [];
   let nextSubtaskID = 0;
@@ -72,6 +79,7 @@ const createTask = (
     description,
     dueDate,
     priority,
+    status,
     addSubtask,
     deleteSubtask,
     subtaskCount,

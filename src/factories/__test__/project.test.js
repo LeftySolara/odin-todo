@@ -17,8 +17,14 @@ describe('project factory', () => {
     });
 
     test('should add new tasks to the list', () => {
-      project.addTask('Write unit tests', 'The tests need to be written!');
-      project.addTask('Create git repo', 'Version control is important!');
+      project.addTask({
+        title: 'Write unit tests',
+        description: 'The tests need to be written!',
+      });
+      project.addTask({
+        title: 'Create git repo',
+        description: 'Version control is important!',
+      });
       expect(project.taskCount()).toBe(2);
     });
   });
@@ -28,8 +34,8 @@ describe('project factory', () => {
 
     beforeEach(() => {
       project = createProject();
-      project.addTask('Task0', 'Description0');
-      project.addTask('Task1', 'Description1');
+      project.addTask({ title: 'Task0', description: 'Description0' });
+      project.addTask({ title: 'Task1', description: 'Description1' });
     });
 
     test('should remove tasks from the list', () => {

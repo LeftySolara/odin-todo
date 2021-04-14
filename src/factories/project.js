@@ -15,11 +15,18 @@ const createProject = (projectTitle) => {
   /**
    * Adds a new task to the project.
    *
-   * @param {string} taskTitle The title of the new task.
-   * @param {*} taskDescription The description of the new task.
+   * @param {Object} taskData - Information to initialie the task with.
+   * @param {string} taskData.title - The title of the task.
+   * @param {string} taskData.description - A brief description of the task.
+   * @param {Date} taskData.dueDate - The date the task is due.
+   * @param {TASK_PRIORITY} taskData.priority - The priority of the task (high, medium, or low).
    */
-  const addTask = (taskTitle, taskDescription) => {
-    const newTask = createTask(nextID, taskTitle, taskDescription);
+  const addTask = (taskData) => {
+    /* Add the ID property to the task data. */
+    const tmp = { id: nextID };
+    const data = Object.assign(tmp, taskData);
+
+    const newTask = createTask(data);
     tasks.push(newTask);
     nextID += 1;
   };
