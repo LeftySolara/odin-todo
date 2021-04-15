@@ -13,10 +13,18 @@ import AdminPage from '../admin';
 
 import * as ROUTES from '../../constants/routes';
 
+const LINKS = [
+  { label: 'Sign In', to: ROUTES.SIGN_IN },
+  { label: 'Landing', to: ROUTES.LANDING },
+  { label: 'Home', to: ROUTES.HOME },
+  { label: 'Account', to: ROUTES.ACCOUNT },
+  { label: 'Admin', to: ROUTES.ADMIN },
+];
+
 const App = () => (
   <Router>
     <div>
-      <Navigation />
+      <Navigation links={LINKS} />
       <hr />
 
       <Route exact path={ROUTES.LANDING} component={LandingPage} />

@@ -1,28 +1,22 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import * as ROUTES from '../../constants/routes';
+import styles from './navigation.module.css';
 
-const Navigation = () => (
-  <div className="navigation">
-    <ul>
-      <li>
-        <Link to={ROUTES.SIGN_IN}>Sign In</Link>
-      </li>
-      <li>
-        <Link to={ROUTES.LANDING}>Landing</Link>
-      </li>
-      <li>
-        <Link to={ROUTES.HOME}>Home</Link>
-      </li>
-      <li>
-        <Link to={ROUTES.ACCOUNT}>Account</Link>
-      </li>
-      <li>
-        <Link to={ROUTES.ADMIN}>Admin</Link>
-      </li>
-    </ul>
-  </div>
-);
+const Navigation = (props) => {
+  const { links } = props;
+
+  return (
+    <div className={styles.navigation}>
+      <ul className={styles['navigation-list']}>
+        {links.map((link) => (
+          <li className={styles['navigation-list-item']}>
+            <Link to={link.to}>{link.label}</Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
 
 export default Navigation;
