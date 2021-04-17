@@ -11,12 +11,20 @@ const SignUpPage = () => (
   </div>
 );
 
+const INITIAL_STATE = {
+  username: '',
+  email: '',
+  passwordOne: '',
+  passwordTwo: '',
+  error: null,
+};
+
 const SignUpFormBase = (props) => {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [passwordOne, setPasswordOne] = useState('');
-  const [passwordTwo, setPasswordTwo] = useState('');
-  const [error, setError] = useState(null);
+  const [username, setUsername] = useState(INITIAL_STATE.username);
+  const [email, setEmail] = useState(INITIAL_STATE.email);
+  const [passwordOne, setPasswordOne] = useState(INITIAL_STATE.passwordOne);
+  const [passwordTwo, setPasswordTwo] = useState(INITIAL_STATE.passwordTwo);
+  const [error, setError] = useState(INITIAL_STATE.error);
 
   const isInvalid =
     passwordOne !== passwordTwo ||
@@ -24,17 +32,21 @@ const SignUpFormBase = (props) => {
     email === '' ||
     username === '';
 
+  const resetState = () => {
+    setUsername(INITIAL_STATE.username);
+    setEmail(INITIAL_STATE.email);
+    setPasswordOne(INITIAL_STATE.passwordOne);
+    setPasswordTwo(INITIAL_STATE.passwordTwo);
+    setError(INITIAL_STATE.error);
+  };
+
   const onSubmit = (event) => {
     const { firebase, history } = props;
 
     firebase
       .doCreateUserWithEmailAndPassword(email, passwordOne)
       .then(() => {
-        setUsername('');
-        setEmail('');
-        setPasswordOne('');
-        setPasswordTwo('');
-        setError(null);
+        resetState();
         history.push(ROUTES.HOME);
       })
       .catch((err) => {
