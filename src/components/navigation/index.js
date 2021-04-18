@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 
 import SignOutButton from '../signOut';
 import styles from './navigation.module.css';
 
 import * as ROUTES from '../../constants/routes';
+import { AuthUserContext } from '../session';
 
-const Navigation = (props) => {
-  const { authUser } = props;
+const Navigation = () => {
+  const authUser = useContext(AuthUserContext);
 
   return (
     <div className={styles.navigation}>
