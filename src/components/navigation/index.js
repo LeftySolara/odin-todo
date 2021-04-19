@@ -28,6 +28,9 @@ const NavigationAuth = () => (
     <li className={styles['navigation-list-item']}>
       <Link to={ROUTES.ACCOUNT}>Account</Link>
     </li>
+    <li className={styles['navigation-list-item']}>
+      <Link to={ROUTES.ADMIN}>Admin</Link>
+    </li>
     <li>
       <SignOutButton />
     </li>
