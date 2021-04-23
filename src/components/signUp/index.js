@@ -12,7 +12,8 @@ const SignUpPage = () => (
 );
 
 const INITIAL_STATE = {
-  username: '',
+  firstName: '',
+  lastName: '',
   email: '',
   passwordOne: '',
   passwordTwo: '',
@@ -20,7 +21,8 @@ const INITIAL_STATE = {
 };
 
 const SignUpFormBase = (props) => {
-  const [username, setUsername] = useState(INITIAL_STATE.username);
+  const [firstName, setFirstName] = useState(INITIAL_STATE.username);
+  const [lastName, setLastName] = useState(INITIAL_STATE.lastName);
   const [email, setEmail] = useState(INITIAL_STATE.email);
   const [passwordOne, setPasswordOne] = useState(INITIAL_STATE.passwordOne);
   const [passwordTwo, setPasswordTwo] = useState(INITIAL_STATE.passwordTwo);
@@ -30,10 +32,12 @@ const SignUpFormBase = (props) => {
     passwordOne !== passwordTwo ||
     passwordOne === '' ||
     email === '' ||
-    username === '';
+    firstName === '' ||
+    lastName === '';
 
   const resetState = () => {
-    setUsername(INITIAL_STATE.username);
+    setFirstName(INITIAL_STATE.firstName);
+    setLastName(INITIAL_STATE.lastName);
     setEmail(INITIAL_STATE.email);
     setPasswordOne(INITIAL_STATE.passwordOne);
     setPasswordTwo(INITIAL_STATE.passwordTwo);
@@ -46,8 +50,10 @@ const SignUpFormBase = (props) => {
     firebase
       .doCreateUserWithEmailAndPassword(email, passwordOne)
       .then((authUser) => {
-        // Create the user in the Firebase realtime database.
-        return firebase.user(authUser.user.uid).set({ username, email });
+        // Update Firebase realtime database with user info.
+        return firebase
+          .user(authUser.user.uid)
+          .set({ email, firstName, lastName });
       })
       .then(() => {
         resetState();
@@ -63,11 +69,18 @@ const SignUpFormBase = (props) => {
   return (
     <form onSubmit={onSubmit}>
       <input
-        name="username"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
+        name="firstName"
+        value={firstName}
+        onChange={(e) => setFirstName(e.target.value)}
         type="text"
-        placeholder="Full Name"
+        placeholder="First Name"
+      />
+      <input
+        name="lastName"
+        value={lastName}
+        onChange={(e) => setLastName(e.target.value)}
+        type="text"
+        placeholder="Last Name"
       />
       <input
         name="email"
