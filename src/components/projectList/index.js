@@ -57,14 +57,14 @@ const ProjectList = (props) => {
   // TODO: generate uuid for each item
   const { initialList } = props;
 
-  const [isEditing, setIsEditing] = useState(false);
+  const [editing, setEditing] = useState(false);
   const [listItems, dispatchListItems] = React.useReducer(
     listReducer,
     initialList,
   );
 
   const toggleEditing = () => {
-    setIsEditing(!isEditing);
+    setEditing(!editing);
   };
 
   const handleAdd = (name) => {
@@ -80,7 +80,7 @@ const ProjectList = (props) => {
         ))}
       </ul>
 
-      {isEditing ? (
+      {editing ? (
         <AddProjectForm onSubmit={handleAdd} />
       ) : (
         <AddProjectButton onClick={toggleEditing} />
