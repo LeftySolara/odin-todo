@@ -39,6 +39,15 @@ const AddProjectForm = ({ onSubmit }) => {
   );
 };
 
+const listReducer = (state, action) => {
+  switch (action.type) {
+    case 'ADD':
+      return state.concat({ name: action.name, id: action.id });
+    default:
+      throw new Error();
+  }
+};
+
 /**
  * React component that displays a list of the user's projects.
  * @param {Array} props.initialList The initial list of projects to display.
@@ -48,16 +57,18 @@ const ProjectList = (props) => {
   // TODO: generate uuid for each item
   const { initialList } = props;
 
-  const [listItems, setListITems] = useState(initialList);
   const [isEditing, setIsEditing] = useState(false);
+  const [listItems, dispatchListItems] = React.useReducer(
+    listReducer,
+    initialList,
+  );
 
   const toggleEditing = () => {
     setIsEditing(!isEditing);
   };
 
   const handleAdd = (name) => {
-    const newListItems = listItems.concat({ name, id: 0 });
-    setListITems(newListItems);
+    dispatchListItems({ type: 'ADD', name, id: 0 });
     toggleEditing();
   };
 
