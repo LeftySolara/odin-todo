@@ -1,0 +1,10 @@
+.sidebar {
+  margin: 0;
+  padding: 0;
+  border-right: 1px solid black;
+}
+
+.nav-item {
+  margin: 0;
+  padding: 0;
+}
