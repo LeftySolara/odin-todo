@@ -1,4 +1,7 @@
+import { v5 as uuidv5 } from 'uuid';
 import createTask from './task';
+
+const PROJECT_UUID_NAMESPACE = '42feb71f-04c7-4a51-a826-f887a8319d3a';
 
 /**
  * Creates a new Project object.
@@ -7,8 +10,8 @@ import createTask from './task';
  */
 const createProject = (projectTitle) => {
   const title = projectTitle;
+  const id = uuidv5(title, PROJECT_UUID_NAMESPACE);
   let tasks = [];
-  let nextID = 0;
 
   const taskCount = () => tasks.length;
 
@@ -20,24 +23,21 @@ const createProject = (projectTitle) => {
    * @param {string} taskData.description - A brief description of the task.
    * @param {Date} taskData.dueDate - The date the task is due.
    * @param {TASK_PRIORITY} taskData.priority - The priority of the task (high, medium, or low).
+   * @returns {string} - The uuid of the new task.
    */
   const addTask = (taskData) => {
-    /* Add the ID property to the task data. */
-    const tmp = { id: nextID };
-    const data = Object.assign(tmp, taskData);
-
-    const newTask = createTask(data);
+    const newTask = createTask(taskData);
     tasks.push(newTask);
-    nextID += 1;
+    return newTask.id;
   };
 
-  const deleteTask = (id) => {
+  const deleteTask = (taskID) => {
     tasks = tasks.filter((task) => {
-      return task.id !== id;
+      return task.id !== taskID;
     });
   };
 
-  return { title, taskCount, addTask, deleteTask };
+  return { id, title, taskCount, addTask, deleteTask };
 };
 
 export default createProject;

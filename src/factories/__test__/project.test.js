@@ -31,15 +31,16 @@ describe('project factory', () => {
 
   describe('when deleting tasks', () => {
     let project;
+    let uuid0;
 
     beforeEach(() => {
-      project = createProject();
-      project.addTask({ title: 'Task0', description: 'Description0' });
+      project = createProject('Example');
+      uuid0 = project.addTask({ title: 'Task0', description: 'Description0' });
       project.addTask({ title: 'Task1', description: 'Description1' });
     });
 
     test('should remove tasks from the list', () => {
-      project.deleteTask(1);
+      project.deleteTask(uuid0);
       expect(project.taskCount()).toBe(1);
     });
   });

@@ -1,3 +1,8 @@
+import { v5 as uuidv5 } from 'uuid';
+
+const TASK_UUID_NAMESPACE = 'b1a166c1-d556-4027-8717-56e7dcd702d5';
+const SUBTASK_UUID_NAMESPACE = 'e5ec46a2-3d9d-4e64-9dc2-53081deac669';
+
 /**
  * Enum representing task priority.
  * @readonly
@@ -24,46 +29,41 @@ const TASK_STATUS = {
  * Creates a new Task object.
  *
  * @param {Object} taskData - Information to initialie the task with.
- * @param {number} taskData.id - The ID number of the task.
  * @param {string} taskData.title - The title of the task.
  * @param {string} taskData.description - A brief description of the task.
  * @param {Date} taskData.dueDate - The date the task is due.
  * @param {TASK_PRIORITY} taskData.priority - The priority of the task (high, medium, or low).
  */
 const createTask = (taskData) => {
-  if (
-    taskData.id === undefined ||
-    taskData.id < 0 ||
-    taskData.title === undefined
-  ) {
+  if (taskData.title === undefined) {
     return null;
   }
 
-  const { id, title, description, dueDate, priority } = taskData;
+  const { title, description, dueDate, priority } = taskData;
   const status = TASK_STATUS.NOT_STARTED;
-
+  const id = uuidv5(title, TASK_UUID_NAMESPACE);
   let subtasks = [];
-  let nextSubtaskID = 0;
 
   /**
    * Creates a new subtask within a task.
    *
    * @param {string} taskDescription A description of the subtask.
+   * @returns {string} The uuid of the subtask.
    */
   const addSubtask = (taskDescription) => {
     const subtask = {
-      id: nextSubtaskID,
+      id: uuidv5(taskDescription, SUBTASK_UUID_NAMESPACE),
       description: taskDescription,
       status: TASK_STATUS.NOT_STARTED,
     };
     subtasks.push(subtask);
-    nextSubtaskID += 1;
+    return subtask.id;
   };
 
   /**
    * Removes a subtask.
    *
-   * @param {number} subtaskID The ID of the subtask to remove.
+   * @param {string} subtaskID The uuid of the subtask to remove.
    */
   const deleteSubtask = (subtaskID) => {
     subtasks = subtasks.filter((subtask) => {

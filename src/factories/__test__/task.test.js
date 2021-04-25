@@ -8,7 +8,6 @@ describe('task factory', () => {
       'The trash needs to be taken out before Monday night.';
     test('should set the title and description if given', () => {
       const task = createTask({
-        id: 0,
         title: exampleTitle,
         description: exampleDescription,
       });
@@ -18,7 +17,7 @@ describe('task factory', () => {
     });
 
     test('should create a task if given a title and no description', () => {
-      const task = createTask({ id: 0, title: exampleTitle });
+      const task = createTask({ title: exampleTitle });
 
       expect(task.title).toBe(exampleTitle);
       expect(task.description).toBe(undefined);
@@ -35,7 +34,6 @@ describe('task factory', () => {
 
     beforeEach(() => {
       exampleTask = createTask({
-        id: 0,
         title: 'Example task',
         description: 'Needs to be done',
       });
@@ -54,10 +52,10 @@ describe('task factory', () => {
       });
 
       test('should allow the deletion of subtasks', () => {
-        exampleTask.addSubtask('Subtask1');
+        const uuid1 = exampleTask.addSubtask('Subtask1');
         exampleTask.addSubtask('Subtask2');
         exampleTask.addSubtask('Subtask3');
-        exampleTask.deleteSubtask(1);
+        exampleTask.deleteSubtask(uuid1);
 
         expect(exampleTask.subtaskCount()).toBe(2);
       });
