@@ -45,7 +45,7 @@ const ForgotPasswordFormBase = (props) => {
       <input
         name="email"
         value={email}
-        onChange={(e) => setEmail(e.target.valud)}
+        onChange={(e) => setEmail(e.target.value)}
         type="text"
         placeholder="Email Address"
       />
