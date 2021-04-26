@@ -39,6 +39,14 @@ class Firebase {
   user = (uid) => this.db.ref(`users/${uid}`);
 
   users = () => this.db.ref('users');
+
+  /* *** Project API *** */
+
+  addProject = (project) => {
+    const { uid } = this.auth.currentUser;
+    const ref = this.db.ref(`projects/${uid}/${project.id}`);
+    ref.set({ id: project.id, title: project.title });
+  };
 }
 
 export default Firebase;

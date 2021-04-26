@@ -1,4 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
+import createProject from '../../factories/project';
+import { withFirebase } from '../firebase';
 
 /**
  * Simple button that fires the given callback function.
@@ -42,7 +44,7 @@ const AddProjectForm = ({ onSubmit }) => {
 const listReducer = (state, action) => {
   switch (action.type) {
     case 'ADD':
-      return state.concat({ name: action.name, id: action.id });
+      return state.concat({ name: action.title, id: action.id });
     default:
       throw new Error();
   }
@@ -52,10 +54,10 @@ const listReducer = (state, action) => {
  * React component that displays a list of the user's projects.
  * @param {Array} props.initialList The initial list of projects to display.
  */
-const ProjectList = (props) => {
+const ProjectListBase = (props) => {
   // TODO: pull initial list from backend
   // TODO: generate uuid for each item
-  const { initialList } = props;
+  const { firebase, initialList } = props;
 
   const [editing, setEditing] = useState(false);
   const [listItems, dispatchListItems] = React.useReducer(
@@ -68,7 +70,9 @@ const ProjectList = (props) => {
   };
 
   const handleAdd = (name) => {
-    dispatchListItems({ type: 'ADD', name, id: 0 });
+    const project = createProject(name);
+    dispatchListItems({ type: 'ADD', title: project.title, id: project.id });
+    firebase.addProject(project);
     toggleEditing();
   };
 
@@ -76,7 +80,9 @@ const ProjectList = (props) => {
     <div>
       <ul>
         {listItems.map((item) => (
-          <li>{item.name}</li>
+          <li>
+            {item.id} {item.name}
+          </li>
         ))}
       </ul>
 
@@ -88,5 +94,7 @@ const ProjectList = (props) => {
     </div>
   );
 };
+
+const ProjectList = withFirebase(ProjectListBase);
 
 export default ProjectList;
