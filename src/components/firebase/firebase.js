@@ -45,7 +45,11 @@ class Firebase {
   addProject = (project) => {
     const { uid } = this.auth.currentUser;
     const ref = this.db.ref(`projects/${uid}/${project.id}`);
-    ref.set({ id: project.id, title: project.title });
+    ref.set({
+      id: project.id,
+      title: project.title,
+      dateCreated: project.dateCreated,
+    });
   };
 }
 

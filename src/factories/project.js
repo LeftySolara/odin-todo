@@ -11,6 +11,7 @@ const PROJECT_UUID_NAMESPACE = '42feb71f-04c7-4a51-a826-f887a8319d3a';
 const createProject = (projectTitle) => {
   const title = projectTitle;
   const id = uuidv5(title, PROJECT_UUID_NAMESPACE);
+  const dateCreated = new Date().getTime();
   let tasks = [];
 
   const taskCount = () => tasks.length;
@@ -37,7 +38,7 @@ const createProject = (projectTitle) => {
     });
   };
 
-  return { id, title, taskCount, addTask, deleteTask };
+  return { id, title, dateCreated, taskCount, addTask, deleteTask };
 };
 
 export default createProject;
