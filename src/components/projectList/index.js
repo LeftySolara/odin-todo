@@ -55,15 +55,10 @@ const listReducer = (state, action) => {
  * @param {Array} props.initialList The initial list of projects to display.
  */
 const ProjectListBase = (props) => {
-  // TODO: pull initial list from backend
-  // TODO: generate uuid for each item
-  const { firebase, initialList } = props;
+  const { firebase } = props;
 
   const [editing, setEditing] = useState(false);
-  const [listItems, dispatchListItems] = React.useReducer(
-    listReducer,
-    initialList,
-  );
+  const [listItems, dispatchListItems] = React.useReducer(listReducer, []);
 
   const toggleEditing = () => {
     setEditing(!editing);
@@ -76,13 +71,21 @@ const ProjectListBase = (props) => {
     toggleEditing();
   };
 
+  useEffect(() => {
+    // Pull the existing project list from the database.
+    firebase.currentUserProjects((snapshot) => {
+      snapshot.forEach((snap) => {
+        const data = snap.val();
+        dispatchListItems({ type: 'ADD', title: data.title, id: data.id });
+      });
+    });
+  }, []);
+
   return (
     <div>
       <ul>
         {listItems.map((item) => (
-          <li>
-            {item.id} {item.name}
-          </li>
+          <li>{item.name}</li>
         ))}
       </ul>
 

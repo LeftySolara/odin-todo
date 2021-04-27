@@ -8,6 +8,7 @@ const SUBTASK_UUID_NAMESPACE = 'e5ec46a2-3d9d-4e64-9dc2-53081deac669';
  * @readonly
  * @enum {number}
  */
+// eslint-disable-next-line no-unused-vars
 const TASK_PRIORITY = {
   LOW: 0,
   MEDIUM: 1,

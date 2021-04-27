@@ -42,6 +42,17 @@ class Firebase {
 
   /* *** Project API *** */
 
+  /**
+   * Fetches the current user's projects from the database.
+   *
+   * @param {function} callback A callback function to execute once the fetch is complete.
+   * @returns {Promise} A promise containing the data snapshot from the DB fetch.
+   */
+  currentUserProjects = (callback) =>
+    this.db
+      .ref(`projects/${this.auth.currentUser.uid}`)
+      .once('value', callback);
+
   addProject = (project) => {
     const { uid } = this.auth.currentUser;
     const ref = this.db.ref(`projects/${uid}/${project.id}`);
