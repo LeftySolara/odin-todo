@@ -2,45 +2,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import createProject from '../../factories/project';
 import { withFirebase } from '../firebase';
 
-/**
- * Simple button that fires the given callback function.
- *
- * @param {function} onClick The callback function to fire when clicked.
- */
-const AddProjectButton = ({ onClick }) => (
-  <button type="button" onClick={onClick}>
-    Add Project
-  </button>
-);
-
-/**
- * Text input for creating a new project with a given name.
- *
- * @param {function} onSubmit The callback function to fire when the form is submitted.
- */
-const AddProjectForm = ({ onSubmit }) => {
-  const [name, setName] = useState('');
-  const text1 = useRef(null);
-
-  // Focus the input field on render.
-  useEffect(() => {
-    text1.current.focus();
-  });
-
-  return (
-    <form onSubmit={() => onSubmit(name)}>
-      <input
-        name="project-name"
-        value={name}
-        type="text"
-        onChange={(e) => setName(e.target.value)}
-        placeholder="Project Name"
-        ref={text1}
-      />
-    </form>
-  );
-};
-
 const listReducer = (state, action) => {
   switch (action.type) {
     case 'ADD':
@@ -53,8 +14,73 @@ const listReducer = (state, action) => {
 };
 
 /**
+ * Form component for adding or editing project information.
+ *
+ * @param {Object} props Props to pass to the component.
+ * @param {string} props.initialText Text to display in the input field on render.
+ * @param {function} props.onSubmit A callback function to execute when the form is submitted. The input's text is passed to this function.
+ */
+const ProjectListForm = (props) => {
+  const { initialText, onSubmit } = props;
+  const [text, setText] = useState(initialText);
+  const textInput = useRef(null);
+
+  // Focus the input field on render.
+  useEffect(() => {
+    textInput.current.focus();
+  });
+
+  return (
+    <form onSubmit={() => onSubmit(text)}>
+      <input
+        name="project-title"
+        value={text}
+        type="text"
+        onChange={(e) => setText(e.target.value)}
+        placeholder="Project Name"
+        ref={textInput}
+      />
+    </form>
+  );
+};
+
+/**
+ * Button component for use in lists.
+ *
+ * @param {Object} props Props to pass to the component.
+ * @param {string} props.text Text to display on the button.
+ * @param {function} props.onClick A callback function to execute when the button is pressed.
+ */
+const ProjectListButton = (props) => {
+  const { text, onClick } = props;
+
+  return (
+    <button type="button" onClick={onClick}>
+      {text}
+    </button>
+  );
+};
+
+/**
+ * List item component for the project list.
+ *
+ * @param {Object} props Props to pass to the component.
+ * @param {string} text The text to show in the list,
+ * @param {function} handleDelete A callback function to execute when the "delete" button is pressed.
+ */
+const ProjectListItem = (props) => {
+  const { text, handleDelete } = props;
+
+  return (
+    <div className="project-list-item">
+      <p>{text}</p>
+      <ProjectListButton text="delete" onClick={handleDelete} />
+    </div>
+  );
+};
+
+/**
  * React component that displays a list of the user's projects.
- * @param {Array} props.initialList The initial list of projects to display.
  */
 const ProjectListBase = (props) => {
   const { firebase } = props;
@@ -93,18 +119,18 @@ const ProjectListBase = (props) => {
       <ul>
         {listItems.map((item) => (
           <li>
-            {item.name}
-            <button type="button" onClick={() => handleDelete(item.id)}>
-              Delete
-            </button>
+            <ProjectListItem
+              text={item.name}
+              handleDelete={() => handleDelete(item.id)}
+            />
           </li>
         ))}
       </ul>
 
       {editing ? (
-        <AddProjectForm onSubmit={handleAdd} />
+        <ProjectListForm initialText="" onSubmit={handleAdd} />
       ) : (
-        <AddProjectButton onClick={toggleEditing} />
+        <ProjectListButton text="Add Project" onClick={toggleEditing} />
       )}
     </div>
   );
