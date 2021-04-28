@@ -62,6 +62,18 @@ class Firebase {
       dateCreated: project.dateCreated,
     });
   };
+
+  /**
+   * Removes a project from the database. This also deletes all tasks in the project.
+   *
+   * @param {Number} id The ID of the project.
+   */
+  deleteProject = (projectID) => {
+    const ref = this.db.ref(
+      `projects/${this.auth.currentUser.uid}/${projectID}`,
+    );
+    ref.remove();
+  };
 }
 
 export default Firebase;

@@ -45,6 +45,8 @@ const listReducer = (state, action) => {
   switch (action.type) {
     case 'ADD':
       return state.concat({ name: action.title, id: action.id });
+    case 'DELETE':
+      return state.filter((obj) => obj.id !== action.id);
     default:
       throw new Error();
   }
@@ -71,6 +73,11 @@ const ProjectListBase = (props) => {
     toggleEditing();
   };
 
+  const handleDelete = (projectID) => {
+    firebase.deleteProject(projectID);
+    dispatchListItems({ type: 'DELETE', id: projectID });
+  };
+
   useEffect(() => {
     // Pull the existing project list from the database.
     firebase.currentUserProjects((snapshot) => {
@@ -85,7 +92,12 @@ const ProjectListBase = (props) => {
     <div>
       <ul>
         {listItems.map((item) => (
-          <li>{item.name}</li>
+          <li>
+            {item.name}
+            <button type="button" onClick={() => handleDelete(item.id)}>
+              Delete
+            </button>
+          </li>
         ))}
       </ul>
 
