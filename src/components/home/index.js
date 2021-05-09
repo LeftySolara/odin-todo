@@ -1,14 +1,11 @@
 import React from 'react';
 
 import { withAuthorization } from '../session';
-import Sidebar from '../sidebar';
-import ProjectList from '../projectList';
+import ProjectSidebar from '../sidebar';
 
 const HomePage = () => (
   <>
-    <Sidebar width={300} height="100vh">
-      <ProjectList initialList={[]} />
-    </Sidebar>
+    <ProjectSidebar />
   </>
 );
 
