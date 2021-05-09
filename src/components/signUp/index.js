@@ -4,6 +4,8 @@ import { Link, withRouter } from 'react-router-dom';
 import { withFirebase } from '../firebase';
 import * as ROUTES from '../../constants/routes';
 
+import createProject from '../../factories/project';
+
 const SignUpPage = () => (
   <div>
     <h1>Sign Up</h1>
@@ -58,6 +60,11 @@ const SignUpFormBase = (props) => {
       .then(() => {
         resetState();
         history.push(ROUTES.HOME);
+      })
+      .then(() => {
+        // Create the default project
+        const defaultProject = createProject('Default');
+        firebase.addProject(defaultProject);
       })
       .catch((err) => {
         setError(err);
