@@ -1,6 +1,5 @@
 import './projectSidebar.css';
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
 
 import {
   ProSidebar,
@@ -10,10 +9,10 @@ import {
   MenuItem,
 } from 'react-pro-sidebar';
 import AddProjectItem from './addProjectItem';
+import ProjectSidebarItem from './projectSidebarItem';
 import createProject from '../../factories/project';
 
 import { withFirebase } from '../firebase';
-import * as ROUTES from '../../constants/routes';
 
 import 'react-pro-sidebar/dist/css/styles.css';
 
@@ -63,13 +62,7 @@ const ProjectSidebarBase = (props) => {
       <SidebarContent>
         <Menu iconShape="square">
           {listItems.map((item) => {
-            const idURL = item.id.substring(0, 8);
-            return (
-              <MenuItem key={item.id}>
-                {item.title}
-                <Link to={`${ROUTES.PROJECT}/${idURL}`} />
-              </MenuItem>
-            );
+            return <ProjectSidebarItem text={item.title} id={item.id} />;
           })}
           <MenuItem>
             <AddProjectItem onSubmit={handleAdd} />
