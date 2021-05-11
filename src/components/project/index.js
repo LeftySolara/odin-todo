@@ -1,5 +1,5 @@
 import React from 'react';
-import ProjectSidebar from '../sidebar';
+import ProjectSidebar from '../projectSidebar';
 
 const ProjectPage = () => {
   return (

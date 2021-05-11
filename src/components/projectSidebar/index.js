@@ -1,4 +1,4 @@
-import './sidebar.css';
+import './projectSidebar.css';
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -9,6 +9,8 @@ import {
   Menu,
   MenuItem,
 } from 'react-pro-sidebar';
+import AddProjectItem from './addProjectItem';
+import createProject from '../../factories/project';
 
 import { withFirebase } from '../firebase';
 import * as ROUTES from '../../constants/routes';
@@ -34,6 +36,17 @@ const ProjectSidebarBase = (props) => {
     [],
   );
 
+  /**
+   * Adds a project to the backend database.
+   *
+   * @param {string} name The name of the project.
+   */
+  const handleAdd = (name) => {
+    const project = createProject(name);
+    dispatchListItems({ type: 'ADD', title: project.title, id: project.id });
+    firebase.addProject(project);
+  };
+
   useEffect(() => {
     // Pull a list of existing projects from the database.
     firebase.currentUserProjects((snapshot) => {
@@ -58,6 +71,9 @@ const ProjectSidebarBase = (props) => {
               </MenuItem>
             );
           })}
+          <MenuItem>
+            <AddProjectItem onSubmit={handleAdd} />
+          </MenuItem>
         </Menu>
       </SidebarContent>
     </ProSidebar>

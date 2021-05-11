@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { withAuthorization } from '../session';
-import ProjectSidebar from '../sidebar';
+import ProjectSidebar from '../projectSidebar';
 
 const HomePage = () => (
   <>
