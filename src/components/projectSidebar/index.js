@@ -46,6 +46,11 @@ const ProjectSidebarBase = (props) => {
     firebase.addProject(project);
   };
 
+  const handleDelete = (id) => {
+    firebase.deleteProject(id);
+    dispatchListItems({ type: 'DELETE', id });
+  };
+
   useEffect(() => {
     // Pull a list of existing projects from the database.
     firebase.currentUserProjects((snapshot) => {
@@ -62,7 +67,13 @@ const ProjectSidebarBase = (props) => {
       <SidebarContent>
         <Menu iconShape="square">
           {listItems.map((item) => {
-            return <ProjectSidebarItem text={item.title} id={item.id} />;
+            return (
+              <ProjectSidebarItem
+                text={item.title}
+                id={item.id}
+                handleDelete={() => handleDelete(item.id)}
+              />
+            );
           })}
           <MenuItem>
             <AddProjectItem onSubmit={handleAdd} />
