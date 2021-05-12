@@ -74,6 +74,49 @@ class Firebase {
     );
     ref.remove();
   };
+
+  /* *** Task API *** */
+
+  /**
+   * Fetches the current user's tasks from the database.
+   *
+   * @param {function} callback A callback function to execute once the fetch is complete.
+   * @returns  {Promise} A promise containing the data snapshot from the DB fetch.
+   */
+  currentUserTasks = (callback) =>
+    this.db.ref(`tasks/${this.auth.currentUser.uid}`).once('value', callback);
+
+  /**
+   * Adds a task to the database.
+   *
+   * @param {Object} task Object containing task information.
+   * @param {string} task.id The uuid of the task.
+   * @param {string} task.title The title of the task.
+   * @param {string} task.description A brief description of the task.
+   * @param {enum} task.priority The priority of the task.
+   * @param {enum} task.status The status of the task.
+   */
+  addTask = (task) => {
+    const { uid } = this.auth.currentUser;
+    const ref = this.db.ref(`tasks/${uid}/${task.id}`);
+    ref.set({
+      id: task.id,
+      title: task.title,
+      description: task.description,
+      priority: task.priority,
+      status: task.status,
+    });
+  };
+
+  /**
+   * Removes a task from the database.
+   *
+   * @param {string} taskID The uuid of the task.
+   */
+  deleteTask = (taskID) => {
+    const ref = this.db.ref(`tasks/${this.auth.currentUser.uid}/${taskID}`);
+    ref.remove();
+  };
 }
 
 export default Firebase;
