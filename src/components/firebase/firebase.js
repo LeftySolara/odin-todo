@@ -104,6 +104,7 @@ class Firebase {
       title: task.title,
       description: task.description,
       priority: task.priority,
+      dueData: task.dueDate,
       status: task.status,
     });
   };
