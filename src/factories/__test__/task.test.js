@@ -20,7 +20,7 @@ describe('task factory', () => {
       const task = createTask({ title: exampleTitle });
 
       expect(task.title).toBe(exampleTitle);
-      expect(task.description).toBe(undefined);
+      expect(task.description).toBe('');
     });
 
     test('should return null when no title is given', () => {

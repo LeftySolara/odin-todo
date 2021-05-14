@@ -40,7 +40,13 @@ const createTask = (taskData) => {
     return null;
   }
 
-  const { title, description, dueDate, priority } = taskData;
+  const {
+    title,
+    description = '',
+    dueDate = 0,
+    priority = TASK_PRIORITY.MEDIUM,
+  } = taskData;
+
   const status = TASK_STATUS.NOT_STARTED;
   const id = uuidv5(title, TASK_UUID_NAMESPACE);
   let subtasks = [];
