@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
+import GenericButton from '../genericButton';
 
 /**
  * A text input used for creating new projects.
@@ -34,22 +35,6 @@ const AddProjectForm = (props) => {
 };
 
 /**
- * Button that makes AddProjectForm visible.
- *
- * @param {Object} props Props to pass to the component.
- * @param {function} onClick Callback function to execute when the button is clicked.
- */
-const AddProjectButton = (props) => {
-  const { onClick } = props;
-
-  return (
-    <button type="button" onClick={onClick}>
-      Add Project
-    </button>
-  );
-};
-
-/**
  * Project sidebar item used for creating new projects.
  *
  * @param {Object} props Props to pass to the component.
@@ -66,7 +51,7 @@ const AddProjectItem = (props) => {
     <>
       {editing
       ? <AddProjectForm onSubmit={onSubmit} onBlur={toggleEditing} />
-      : <AddProjectButton onClick={toggleEditing} />
+      : <GenericButton text="Add Project" onClick={toggleEditing} />
       }
     </>
   );
