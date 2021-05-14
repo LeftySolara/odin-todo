@@ -21,8 +21,21 @@ class Firebase {
 
   /* Auth API */
 
-  doCreateUserWithEmailAndPassword = (email, password) =>
+  /**
+   * Creates a new user with a default project.
+   *
+   * @param {string} email The user's email address.
+   * @param {string} password The user's password.
+   */
+  doCreateUserWithEmailAndPassword = (email, password) => {
     this.auth.createUserWithEmailAndPassword(email, password);
+
+    const defaultProject = { id: 0, title: 'Default', dateCreated: Date.now() };
+    this.db
+      .ref(`projects/${this.auth.currentUser.uid}`)
+      .child('0')
+      .set(defaultProject);
+  };
 
   doSignInWithEmailAndPassword = (email, password) =>
     this.auth.signInWithEmailAndPassword(email, password);
