@@ -1,5 +1,6 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useContext } from 'react';
 import createTask from '../../factories/task';
+import CurrentProjectContext from '../project/context';
 
 /**
  * A form used for creating new tasks.
@@ -13,9 +14,14 @@ const AddTaskForm = (props) => {
   const [text, setText] = useState();
   const textInput = useRef(null);
 
+  // eslint-disable-next-line no-unused-vars
+  const { currentProject, setCurrentProject } = useContext(
+    CurrentProjectContext,
+  );
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    const task = createTask({ title: text });
+    const task = createTask({ title: text, projectID: currentProject });
     onSubmit(task);
     setText('');
   };

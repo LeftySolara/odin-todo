@@ -34,6 +34,7 @@ const TASK_STATUS = {
  * @param {string} taskData.description - A brief description of the task.
  * @param {Date} taskData.dueDate - The date the task is due.
  * @param {TASK_PRIORITY} taskData.priority - The priority of the task (high, medium, or low).
+ * @param {string} taskData.projectID - The uuid of the project this task belongs to.
  */
 const createTask = (taskData) => {
   if (taskData.title === undefined) {
@@ -45,6 +46,7 @@ const createTask = (taskData) => {
     description = '',
     dueDate = 0,
     priority = TASK_PRIORITY.MEDIUM,
+    projectID = '0',
   } = taskData;
 
   const status = TASK_STATUS.NOT_STARTED;
@@ -86,6 +88,7 @@ const createTask = (taskData) => {
     description,
     dueDate,
     priority,
+    projectID,
     status,
     addSubtask,
     deleteSubtask,

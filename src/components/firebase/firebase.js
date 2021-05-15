@@ -107,6 +107,7 @@ class Firebase {
    * @param {string} task.title The title of the task.
    * @param {string} task.description A brief description of the task.
    * @param {enum} task.priority The priority of the task.
+   * @param {string} task.projectID The uuid of the project this task belongs to.
    * @param {enum} task.status The status of the task.
    */
   addTask = (task) => {
@@ -118,6 +119,7 @@ class Firebase {
       description: task.description,
       priority: task.priority,
       dueData: task.dueDate,
+      projectID: task.projectID,
       status: task.status,
     });
   };
